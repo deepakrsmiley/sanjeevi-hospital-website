@@ -4,7 +4,7 @@ import { useFetch } from "@/hooks/useFetch";
 import { api } from "@/api";
 import ImageUploadField from "@/components/admin/ImageUploadField";
 
-const empty = { name: "", qualification: "", specialization: "", department: "", experience: "", photo: "" };
+const empty = { name: "", specialization: "", department: "", photo: "" };
 
 export default function AdminDoctors() {
   const { data: doctors, isLoading, refetch } = useFetch<any[]>("/api/doctors");
@@ -58,7 +58,7 @@ export default function AdminDoctors() {
       <div className="bg-white rounded-2xl p-6 border shadow-sm mb-8">
         <h2 className="font-bold text-lg text-[#6A1B9A] mb-4">{editing ? "Edit Doctor" : "Add Doctor"}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {(["name","qualification","specialization","department","experience"] as const).map(k => (
+          {(["name","specialization","department"] as const).map(k => (
             <div key={k}><label className="block text-xs font-semibold text-gray-600 mb-1 capitalize">{k}</label><input className={inp} value={form[k]} onChange={e => setForm(f => ({ ...f, [k]: e.target.value }))} placeholder={k} /></div>
           ))}
           <div className="md:col-span-2">
@@ -77,10 +77,9 @@ export default function AdminDoctors() {
               <img src={d.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(d.name)}&background=6A1B9A&color=fff&size=80`} alt={d.name} className="w-14 h-14 rounded-full object-cover shrink-0" />
               <div className="flex-1 min-w-0">
                 <h3 className="font-bold text-gray-900 text-sm truncate">{d.name}</h3>
-                <p className="text-[#6A1B9A] text-xs">{d.qualification}</p>
                 <p className="text-gray-400 text-xs">{d.specialization}</p>
                 <div className="flex gap-2 mt-3">
-                  <button onClick={() => { setForm({ name: d.name, qualification: d.qualification, specialization: d.specialization, department: d.department, experience: d.experience, photo: d.photo }); setEditing(d._id); }} className="text-xs text-[#6A1B9A] font-semibold hover:underline">Edit</button>
+                  <button onClick={() => { setForm({ name: d.name, specialization: d.specialization, department: d.department, photo: d.photo }); setEditing(d._id); }} className="text-xs text-[#6A1B9A] font-semibold hover:underline">Edit</button>
                   <button onClick={() => del(d._id)} className="text-xs text-red-500 font-semibold hover:underline">Delete</button>
                 </div>
               </div>
